@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      /* Similar styling as above but simpler */
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      .email-container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .header {
+        background: #ff6b35;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 25px;
+      }
+      .flan-highlight {
+        background: #fff8f0;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #ff6b35;
+      }
+      .btn {
+        background: #ff6b35;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <h2>🚨 New Flan Alert! 🚨</h2>
+      </div>
+
+      <div class="content">
+        <p>Hi {{ subscriber.name|default:"Flan Fanatic" }}!</p>
+
+        <div class="flan-highlight">
+          <h3>{{ flan.name }}</h3>
+          <p><strong>Type:</strong> {{ flan.get_flan_type_display }}</p>
+          <p>{{ flan.description }}</p>
+          {% if flan.is_premium %}
+          <p>
+            <strong>💰 Premium Content:</strong> {{ flan.get_display_price }}
+          </p>
+          {% else %}
+          <p><strong>🎉 Free Recipe!</strong></p>
+          {% endif %}
+        </div>
+
+        <p>
+          This {{ flan.get_flan_type_display|lower }} flan was just added by {{
+          flan.creator.username }} and we thought you'd love it!
+        </p>
+
+        <div style="text-align: center; margin-top: 25px">
+          <a href="{{ site_url }}{% url 'flan-detail' flan.id %}" class="btn">
+            Check Out This Flan 🍮
+          </a>
+        </div>
+
+        <p style="margin-top: 25px; font-size: 12px; color: #666">
+          You're receiving this because you subscribed to new flan alerts.
+          <a href="{{ unsubscribe_url }}" style="color: #ff6b35"
+            >Unsubscribe from new flan alerts</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

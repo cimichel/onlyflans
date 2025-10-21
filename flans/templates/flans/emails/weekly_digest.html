@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(45deg, #ff0080, #00aff0);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+        }
+        .flan-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        .premium-badge {
+            background: gold;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .btn {
+            background: #00aff0;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🍮 Your Weekly Flan Digest</h1>
+            <p>Hello {{ subscriber.name|default:"Flan Lover" }}! Here are this week's hottest flans</p>
+        </div>
+        
+        <div class="content">
+            <h2>This Week's Featured Flans</h2>
+            
+            {% for flan in featured_flans %}
+            <div class="flan-card">
+                <h3>{{ flan.name }} {% if flan.is_premium %}<span class="premium-badge">PREMIUM</span>{% endif %}</h3>
+                <p>{{ flan.description }}</p>
+                <p><strong>Type:</strong> {{ flan.flan_type }} | <strong>Price:</strong> {{ flan.get_display_price }}</p>
+                <a href="{{ site_url }}{% url 'flan-detail' flan.id %}" class="btn">
+                    View This Flan 🍮
+                </a>
+            </div>
+            {% endfor %}
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p><strong>Weekly Stats:</strong></p>
+                <p>🎉 {{ new_flans_count }} new flans this week</p>
+                <p>👑 {{ premium_count }} premium recipes added</p>
+                <p>⭐ Most popular: {{ most_popular_type }}</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="{{ site_url }}{% url 'flan-list' %}" class="btn">
+                    Explore All Flans
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>OnlyFlans &copy; 2024 - The Ultimate Premium Flan Experience</p>
+            <p>
+                <a href="{{ site_url }}{% url 'faq' %}" style="color: #00aff0;">FAQ</a> | 
+                <a href="{{ unsubscribe_url }}" style="color: #00aff0;">Unsubscribe</a>
+            </p>
+            <p style="color: #888; font-size: 10px; margin-top: 15px;">
+                This is a parody website. No actual payments processed.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

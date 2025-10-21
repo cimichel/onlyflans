@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import EmailValidator
 
 class Flan(models.Model):
     
@@ -62,3 +63,33 @@ class Flan(models.Model):
     # Custom method - using modern Python f-strings
     def get_display_price(self):
         return f"${self.price:.2f}" if self.is_premium else "FREE"
+    
+ 
+class Subscriber(models.Model):
+    """People who want flan email updates"""
+    email = models.EmailField(unique=True, validators=[EmailValidator()])
+    name = models.CharField(max_length=100, blank=True)
+    is_active = models.BooleanField(default=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    
+    # Preferences
+    receive_weekly_digest = models.BooleanField(default=True)
+    receive_new_flan_alerts = models.BooleanField(default=True)
+    favorite_flan_type = models.CharField(
+        max_length=20, 
+        choices=Flan.FLAN_TYPES,
+        blank=True
+    )
+    
+    def __str__(self):
+        return f"{self.email} ({'Active' if self.is_active else 'Inactive'})"
+
+class EmailLog(models.Model):
+    """Track emails we send"""
+    subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=200)
+    sent_at = models.DateTimeField(auto_now_add=True)
+    was_successful = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"Email to {self.subscriber.email} at {self.sent_at}"   

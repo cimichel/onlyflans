@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Flan
+from django.contrib import messages
+from .models import Subscriber
 
 
 def flan_list(request):
@@ -50,3 +52,28 @@ def flan_detail(request, flan_id):
 
 def faq(request):
     return render(request, 'flans/faq.html')
+
+
+def subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        name = request.POST.get('name', '')
+
+        try:
+            # Create or update subscriber
+            subscriber, created = Subscriber.objects.get_or_create(
+                email=email,
+                defaults={'name': name, 'is_active': True}
+            )
+
+            if created:
+                messages.success(
+                    request, f"🎉 Welcome to the Flan Family, {name or email}! You'll get weekly flan updates.")
+            else:
+                messages.info(
+                    request, f"You're already subscribed with {email}!")
+
+        except Exception as e:
+            messages.error(request, "Something went wrong. Please try again.")
+
+        return redirect('flan-list')

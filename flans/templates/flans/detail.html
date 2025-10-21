@@ -294,4 +294,107 @@ OnlyFlans{%endblock %} {% block extra_css %}
     </p>
   </div>
 </div>
+<!-- Fake Creator Activity -->
+<div
+  style="
+    background: var(--onlyfans-gray);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    display: none;
+  "
+  id="creatorTyping"
+>
+  <div style="display: flex; align-items: center">
+    <div
+      style="
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--onlyfans-blue);
+        margin-right: 1rem;
+      "
+    ></div>
+    <div>
+      <strong>{{ flan.creator.username }}</strong> is typing...
+      <div style="display: inline-block; margin-left: 0.5rem">
+        <span style="animation: bounce 1s infinite">.</span>
+        <span style="animation: bounce 1s infinite 0.1s">.</span>
+        <span style="animation: bounce 1s infinite 0.2s">.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes bounce {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+</style>
+
+<!-- Fake Tips Floating In -->
+<div
+  id="tipContainer"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  "
+></div>
+
+<script>
+  function createFakeTip() {
+    const tips = ["$5", "$10", "$20", "💎", "🌟"];
+    const tip = tips[Math.floor(Math.random() * tips.length)];
+
+    const tipElement = document.createElement("div");
+    tipElement.textContent = tip;
+    tipElement.style.cssText = `
+            position: fixed;
+            top: ${Math.random() * 100}vh;
+            left: ${Math.random() * 100}vw;
+            color: gold;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: floatUp 3s forwards;
+            pointer-events: none;
+            z-index: 10000;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        `;
+
+    document.getElementById("tipContainer").appendChild(tipElement);
+
+    setTimeout(() => {
+      tipElement.remove();
+    }, 3000);
+  }
+
+  // Create CSS animation
+  const style = document.createElement("style");
+  style.textContent = `
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+    `;
+  document.head.appendChild(style);
+
+  // Random tips every 5-10 seconds
+  setInterval(() => {
+    if (Math.random() < 0.4) {
+      // 40% chance
+      createFakeTip();
+    }
+  }, 5000);
+</script>
 {% endblock %}

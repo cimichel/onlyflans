@@ -1,241 +1,418 @@
-{% extends 'flans/base.html' %}
-
-{% block title %}Premium Flan Content - OnlyFlans{% endblock %}
-
-{% block extra_css %}
+{% extends 'flans/base.html' %} {% block title %}Premium Flan Content -
+OnlyFlans{% endblock %} {% block extra_css %}
 <style>
-    /* Hero Section */
-    .hero {
-        text-align: center;
-        padding: 3rem 0;
-        margin-bottom: 2rem;
-    }
-    
-    .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, var(--onlyfans-pink), var(--onlyfans-blue));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .hero p {
-        color: #ccc;
-        font-size: 1.2rem;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    
-    /* Stats Bar - Like OnlyFans */
-    .stats-bar {
-        background-color: var(--onlyfans-gray);
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-    }
-    
-    .stat {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .stat-number {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--onlyfans-blue);
-    }
-    
-    .stat-label {
-        font-size: 0.8rem;
-        color: #888;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    /* Flan Grid - OnlyFans Style */
-    .flan-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-    
-    .flan-card {
-        background-color: var(--onlyfans-light-gray);
-        border-radius: 12px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        border: 1px solid #333;
-    }
-    
-    .flan-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--onlyfans-blue);
-        box-shadow: 0 10px 25px rgba(0, 175, 240, 0.2);
-    }
-    
-    .flan-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-bottom: 1px solid #333;
-    }
-    
-    .flan-info {
-        padding: 1.2rem;
-    }
-    
-    .flan-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        margin-bottom: 0.8rem;
-    }
-    
-    .flan-name {
-        font-weight: bold;
-        font-size: 1rem;
-        color: white;
-        flex: 1;
-        margin-right: 0.5rem;
-    }
-    
-    .flan-description {
-        color: #ccc;
-        font-size: 0.85rem;
-        line-height: 1.4;
-        margin-bottom: 1rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    
-    .flan-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.8rem;
-    }
-    
-    .flan-type {
-        color: var(--onlyfans-blue);
-        font-weight: 500;
-    }
-    
-    .flan-price {
-        font-weight: bold;
-        color: var(--onlyfans-pink);
-    }
-    
-    /* Empty State */
-    .empty-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #666;
-    }
-    
-    .empty-state h3 {
-        margin-bottom: 1rem;
-        color: #ccc;
-    }
-</style>
-{% endblock %}
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+  }
 
-{% block content %}
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(
+      45deg,
+      var(--onlyfans-pink),
+      var(--onlyfans-blue)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: #ccc;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Stats Bar - Like OnlyFans */
+  .stats-bar {
+    background-color: var(--onlyfans-gray);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--onlyfans-blue);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Flan Grid - OnlyFans Style */
+  .flan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .flan-card {
+    background-color: var(--onlyfans-light-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+  }
+
+  .flan-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--onlyfans-blue);
+    box-shadow: 0 10px 25px rgba(0, 175, 240, 0.2);
+  }
+
+  .flan-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #333;
+  }
+
+  .flan-info {
+    padding: 1.2rem;
+  }
+
+  .flan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.8rem;
+  }
+
+  .flan-name {
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    flex: 1;
+    margin-right: 0.5rem;
+  }
+
+  .flan-description {
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .flan-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  .flan-type {
+    color: var(--onlyfans-blue);
+    font-weight: 500;
+  }
+
+  .flan-price {
+    font-weight: bold;
+    color: var(--onlyfans-pink);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+  }
+
+  .empty-state h3 {
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+</style>
+{% endblock %} {% block content %}
 <!-- Hero Section -->
 <div class="hero">
-    <h1>Premium Flan Content</h1>
-    <p>Discover exclusive flan recipes from top dessert creators worldwide</p>
+  <h1>Premium Flan Content</h1>
+  <p>Discover exclusive flan recipes from top dessert creators worldwide</p>
 </div>
 
 <!-- Stats Bar -->
 <div class="stats-bar">
-    <div class="stat">
-        <span class="stat-number">{{ total_flans }}+</span>
-        <span class="stat-label">Flans</span>
-    </div>
-    <div class="stat">
-        <span class="stat-number">{{ flans|length }}</span>
-        <span class="stat-label">Active Creators</span>
-    </div>
-    <div class="stat">
-        <span class="stat-number">24/7</span>
-        <span class="stat-label">Fresh Content</span>
-    </div>
+  <div class="stat">
+    <span class="stat-number">{{ total_flans }}+</span>
+    <span class="stat-label">Flans</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">{{ flans|length }}</span>
+    <span class="stat-label">Active Creators</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">24/7</span>
+    <span class="stat-label">Fresh Content</span>
+  </div>
 </div>
 
 <!-- Flan Grid -->
 <div class="flan-grid">
-    {% for flan in flans %}
-    <div class="flan-card">
-        <a href="{% url 'flan-detail' flan.id %}" style="text-decoration: none; color: inherit;">
-            <img src="{{ flan.image_url }}" 
-                 alt="{{ flan.name }}" 
-                 class="flan-image"
-                 onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'">
-            <div class="flan-info">
-                <div class="flan-header">
-                    <span class="flan-name">{{ flan.name }}</span>
-                    {% if flan.is_premium %}
-                    <span class="premium-badge">PREMIUM</span>
-                    {% endif %}
-                </div>
-                <p class="flan-description">{{ flan.description }}</p>
-                <div class="flan-meta">
-                    <span class="flan-type">{{ flan.type }}</span>
-                    <span class="flan-price">{{ flan.price }}</span>
-                </div>
-            </div>
-        </a>
-    </div>
-    {% empty %}
-    <div class="empty-state" style="grid-column: 1 / -1;">
-        <h3>No flans available yet! 🍮</h3>
-        <p>Be the first to share your flan creation with the world.</p>
-        <a href="/admin/flans/flan/add/" class="btn" style="margin-top: 1rem;">Create Your First Flan</a>
-    </div>
-    {% endfor %}
+  {% for flan in flans %}
+  <div class="flan-card">
+    <a
+      href="{% url 'flan-detail' flan.id %}"
+      style="text-decoration: none; color: inherit"
+    >
+      <img
+        src="{{ flan.image_url }}"
+        alt="{{ flan.name }}"
+        class="flan-image"
+        onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'"
+      />
+      <div class="flan-info">
+        <div class="flan-header">
+          <span class="flan-name">{{ flan.name }}</span>
+          {% if flan.is_premium %}
+          <span class="premium-badge">PREMIUM</span>
+          {% endif %}
+        </div>
+        <p class="flan-description">{{ flan.description }}</p>
+        <div class="flan-meta">
+          <span class="flan-type">{{ flan.type }}</span>
+          <span class="flan-price">{{ flan.price }}</span>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% empty %}
+  <div class="empty-state" style="grid-column: 1 / -1">
+    <h3>No flans available yet! 🍮</h3>
+    <p>Be the first to share your flan creation with the world.</p>
+    <a href="/admin/flans/flan/add/" class="btn" style="margin-top: 1rem"
+      >Create Your First Flan</a
+    >
+  </div>
+  {% endfor %}
 </div>
 
 <!-- CTA Section -->
-<div style="text-align: center; margin-top: 4rem; padding: 3rem; background-color: var(--onlyfans-gray); border-radius: 15px;">
-    <h2 style="margin-bottom: 1rem;">Ready to Share Your Flan Creations?</h2>
-    <p style="color: #ccc; margin-bottom: 2rem;">Join our community of flan enthusiasts and start earning today</p>
-    <a href="/admin/flans/flan/add/" class="btn btn-premium">Become a Flan Creator</a>
+<div
+  style="
+    text-align: center;
+    margin-top: 4rem;
+    padding: 3rem;
+    background-color: var(--onlyfans-gray);
+    border-radius: 15px;
+  "
+>
+  <h2 style="margin-bottom: 1rem">Ready to Share Your Flan Creations?</h2>
+  <p style="color: #ccc; margin-bottom: 2rem">
+    Join our community of flan enthusiasts and start earning today
+  </p>
+  <a href="/admin/flans/flan/add/" class="btn btn-premium"
+    >Become a Flan Creator</a
+  >
 </div>
 
 <!-- Fake "Live" Indicator -->
-<div style="position: fixed; bottom: 20px; right: 20px; background: var(--onlyfans-pink); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; z-index: 1000;">
-    🔴 12 Creators Baking Live
-</div>
-
-<!-- Fake Notification Popup -->
-<div style="position: fixed; top: 20px; right: 20px; background: var(--onlyfans-blue); color: white; padding: 1rem; border-radius: 10px; font-size: 0.9rem; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: none;" id="fakeNotification">
-    <strong>Maria just posted a new flan!</strong>
-    <br>
-    <span style="font-size: 0.8rem;">"Caramel Swirl Delight" - Check it out!</span>
+<div
+  style="
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: var(--onlyfans-pink);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 999;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  "
+>
+  🔴 <span id="liveCount">1,247</span> people viewing flans right now
 </div>
 
 <script>
-    // Fake notification after 3 seconds
+  // Randomly increment the live count
+  setInterval(() => {
+    const countElement = document.getElementById("liveCount");
+    let currentCount = parseInt(countElement.textContent.replace(",", ""));
+    currentCount += Math.floor(Math.random() * 3);
+    countElement.textContent = currentCount.toLocaleString();
+  }, 3000);
+</script>
+
+<!-- Fake Notification Popup -->
+<div
+  style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--onlyfans-blue);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: none;
+  "
+  id="fakeNotification"
+>
+  <strong>Maria just posted a new flan!</strong>
+  <br />
+  <span style="font-size: 0.8rem">"Caramel Swirl Delight" - Check it out!</span>
+</div>
+
+<script>
+  // Fake notification after 3 seconds
+  setTimeout(() => {
+    document.getElementById("fakeNotification").style.display = "block";
     setTimeout(() => {
-        document.getElementById('fakeNotification').style.display = 'block';
-        setTimeout(() => {
-            document.getElementById('fakeNotification').style.display = 'none';
-        }, 5000);
-    }, 3000);
-    
-    // Fake user count that increments
-    let userCount = 1247;
-    setInterval(() => {
-        userCount += Math.floor(Math.random() * 3);
-        document.querySelector('.stat-number').innerText = userCount + '+';
-    }, 3000);
+      document.getElementById("fakeNotification").style.display = "none";
+    }, 5000);
+  }, 3000);
+
+  // Fake user count that increments
+  let userCount = 1247;
+  setInterval(() => {
+    userCount += Math.floor(Math.random() * 3);
+    document.querySelector(".stat-number").innerText = userCount + "+";
+  }, 3000);
+</script>
+
+<!-- Subscription Form -->
+<div
+  style="
+    background: var(--onlyfans-light-gray);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 3rem;
+    text-align: center;
+  "
+>
+  <h3>📧 Get Weekly Flan Updates</h3>
+  <p style="color: #ccc; margin-bottom: 1rem">
+    Join our mailing list for the hottest new flan recipes!
+  </p>
+
+  <form
+    action="{% url 'subscribe' %}"
+    method="post"
+    style="display: inline-block"
+  >
+    {% csrf_token %}
+    <input
+      type="email"
+      name="email"
+      placeholder="your.email@example.com"
+      required
+      style="
+        padding: 0.7rem;
+        border: none;
+        border-radius: 5px;
+        margin-right: 0.5rem;
+        min-width: 250px;
+      "
+    />
+    <input
+      type="text"
+      name="name"
+      placeholder="Your Name (Optional)"
+      style="
+        padding: 0.7rem;
+        border: none;
+        border-radius: 5px;
+        margin-right: 0.5rem;
+        min-width: 200px;
+      "
+    />
+    <button type="submit" class="btn btn-premium" style="margin-top: 0.5rem">
+      Subscribe to Flan Updates
+    </button>
+  </form>
+
+  <p style="font-size: 0.8rem; color: #888; margin-top: 1rem">
+    No spam, just flans! Unsubscribe anytime.
+  </p>
+</div>
+<!-- Fake Recent Activity -->
+<div
+  style="
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--onlyfans-light-gray);
+    padding: 1rem;
+    border-radius: 10px;
+    max-width: 200px;
+    display: none;
+  "
+  id="activitySidebar"
+>
+  <h4 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+    Recent Activity
+  </h4>
+
+  <div id="activityFeed" style="font-size: 0.8rem; color: #ccc">
+    <!-- Activities will be added here -->
+  </div>
+</div>
+
+<script>
+  const activities = [
+    "🌟 Maria tipped $10 for Chocolate Flan",
+    "💖 Carlos subscribed to Abuela Maria",
+    "🍮 New flan added: Coconut Paradise",
+    "🔥 FlanLover42 rated 5 stars",
+    "💰 Premium subscription activated",
+    "👑 Gordon Hamsey reached top creator",
+    "🎯 Weekly goal 72% completed",
+    "📧 124 new subscribers today",
+  ];
+
+  function addActivity() {
+    const activity = activities[Math.floor(Math.random() * activities.length)];
+    const activityElement = document.createElement("div");
+    activityElement.textContent = activity;
+    activityElement.style.cssText =
+      "margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #333;";
+
+    const feed = document.getElementById("activityFeed");
+    feed.insertBefore(activityElement, feed.firstChild);
+
+    // Keep only 5 activities
+    if (feed.children.length > 5) {
+      feed.removeChild(feed.lastChild);
+    }
+  }
+
+  // Show sidebar after 10 seconds
+  setTimeout(() => {
+    document.getElementById("activitySidebar").style.display = "block";
+
+    // Add initial activities
+    for (let i = 0; i < 3; i++) {
+      addActivity();
+    }
+
+    // Add new activity every 8-15 seconds
+    setInterval(addActivity, 8000 + Math.random() * 7000);
+  }, 10000);
 </script>
 
 {% endblock %}

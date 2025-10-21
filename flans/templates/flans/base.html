@@ -245,6 +245,60 @@
         }
       });
     </script>
+    <!-- Fake DM Notification -->
+    <div
+      id="dmNotification"
+      style="
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background: var(--onlyfans-blue);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        display: none;
+        max-width: 250px;
+      "
+    >
+      <strong>💌 New Message</strong>
+      <div style="font-size: 0.8rem; margin-top: 0.5rem">
+        "Your flan recipe changed my life! 😍"
+      </div>
+      <div style="font-size: 0.7rem; color: #ccc; margin-top: 0.5rem">
+        From: FlanLover42
+      </div>
+    </div>
+
+    <script>
+      // Show fake DM after 15 seconds
+      setTimeout(() => {
+        document.getElementById("dmNotification").style.display = "block";
+        setTimeout(() => {
+          document.getElementById("dmNotification").style.display = "none";
+        }, 7000);
+      }, 15000);
+    </script>
     {% block extra_js %}{% endblock %}
+    <!-- Fake Security Warning -->
+    <script>
+      // Show fake security warning 5% of the time
+      if (Math.random() < 0.05) {
+        setTimeout(() => {
+          if (
+            confirm(
+              "🔒 SECURITY NOTICE: Flan content detected in browser history\n\nYour browser has flagged excessive flan recipe viewing. Continue at your own risk?"
+            )
+          ) {
+            alert("🍮 Flan addiction confirmed! Welcome to the club!");
+          } else {
+            alert(
+              "Smart choice... but you know you will be back for more flan!"
+            );
+          }
+        }, 3000);
+      }
+    </script>
   </body>
 </html>

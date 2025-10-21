@@ -1,24 +1,52 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from .models import Flan
 
 
-
-def index(request):
-    return HttpResponse("🍮 OnlyFlans - Coming Soon! 🍮")
-
 def flan_list(request):
-    # Using Django ORM to get all flans
-    flans = Flan.objects.all()
-    
-    # Using list comprehension (modern Python!)
+    """Display all flans with filtering options"""
+    flan_type = request.GET.get('type', '')
+
+    # Using Django ORM filtering (interview concept!)
+    if flan_type:
+        flans = Flan.objects.filter(flan_type=flan_type)
+    else:
+        flans = Flan.objects.all()
+
+    # Using list comprehension with conditional (modern Python)
     flan_data = [{
+        'id': flan.id,
         'name': flan.name,
-        'description': flan.description,
+        # Truncate long descriptions
+        'description': flan.description[:100] + '...' if len(flan.description) > 100 else flan.description,
         'image_url': flan.image_url,
-        'type': flan.get_flan_type_display(),  # Gets the display value
+        'type': flan.get_flan_type_display(),
         'price': flan.get_display_price(),
         'is_premium': flan.is_premium
     } for flan in flans]
-    
-    return render(request, 'flans/list.html', {'flans': flan_data})
+
+    context = {
+        'flans': flan_data,
+        'selected_type': flan_type,
+        # Using len() instead of count() since we already have the queryset
+        'total_flans': len(flans)
+    }
+
+    return render(request, 'flans/list.html', context)
+
+
+def flan_detail(request, flan_id):
+    """Display detailed view of a single flan"""
+    # get_object_or_404 is Django shortcut - tries to get object, returns 404 if not found
+    flan = get_object_or_404(Flan, id=flan_id)
+
+    context = {
+        'flan': flan,
+        'display_type': flan.get_flan_type_display(),  # Human-readable choice
+        'display_price': flan.get_display_price(),
+    }
+
+    return render(request, 'flans/detail.html', context)
+
+
+def faq(request):
+    return render(request, 'flans/faq.html')

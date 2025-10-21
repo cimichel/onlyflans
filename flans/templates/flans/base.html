@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}OnlyFlans - Premium Flan Content{% endblock %}
+    </title>
+    <style>
+      /* OnlyFans-inspired color scheme */
+      :root {
+        --onlyfans-black: #000000;
+        --onlyfans-white: #ffffff;
+        --onlyfans-gray: #1a1a1a;
+        --onlyfans-light-gray: #2d2d2d;
+        --onlyfans-blue: #00aff0;
+        --onlyfans-pink: #ff0080;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--onlyfans-black);
+        color: var(--onlyfans-white);
+        line-height: 1.6;
+      }
+
+      /* Navigation - OnlyFans Style */
+      .navbar {
+        background-color: var(--onlyfans-black);
+        border-bottom: 1px solid var(--onlyfans-light-gray);
+        padding: 0.8rem 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--onlyfans-white);
+        text-decoration: none;
+      }
+
+      .logo span {
+        color: var(--onlyfans-blue);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--onlyfans-white);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--onlyfans-blue);
+      }
+
+      .subscribe-btn {
+        background: linear-gradient(
+          45deg,
+          var(--onlyfans-pink),
+          var(--onlyfans-blue)
+        );
+        color: white;
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.8rem;
+      }
+
+      /* Main Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        min-height: 80vh;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: var(--onlyfans-gray);
+        padding: 3rem 1.5rem;
+        margin-top: 4rem;
+        border-top: 1px solid var(--onlyfans-light-gray);
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .footer p {
+        color: #888;
+        font-size: 0.9rem;
+      }
+
+      /* Premium Badge - OnlyFans Style */
+      .premium-badge {
+        background: linear-gradient(
+          45deg,
+          var(--onlyfans-pink),
+          var(--onlyfans-blue)
+        );
+        color: white;
+        padding: 0.2rem 0.8rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Buttons */
+      .btn {
+        background: var(--onlyfans-blue);
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .btn:hover {
+        background: #0090d0;
+        transform: translateY(-2px);
+      }
+
+      .btn-premium {
+        background: linear-gradient(
+          45deg,
+          var(--onlyfans-pink),
+          var(--onlyfans-blue)
+        );
+      }
+
+      .btn-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);
+      }
+    </style>
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Navigation - OnlyFans Style -->
+    <nav class="navbar">
+      <div class="nav-content">
+        <a href="{% url 'flan-list' %}" class="logo">
+          Only<span>Flans</span>
+        </a>
+        <div class="nav-links">
+          <a href="{% url 'flan-list' %}">Home</a>
+          <a href="#">Discover</a>
+          <a href="{% url 'faq' %}">FAQ</a>
+          <a href="#">Creators</a>
+          <a href="/admin/" target="_blank">Admin</a>
+          <a href="#" class="subscribe-btn">Subscribe</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+      {% block content %}
+      <!-- Child templates will insert content here -->
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>OnlyFlans &copy; 2024 - The Ultimate Premium Flan Experience</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem">
+          This is a parody website showcasing delicious flan desserts. No actual
+          adult content.
+        </p>
+      </div>
+    </footer>
+    <script>
+      // Fake "typing" effect on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        const originalTitle = document.title;
+        let titles = [
+          "OnlyFlans - Premium Flan Content",
+          "OnlyFlans - Exclusive Desserts",
+          "OnlyFlans - Caramel Dreams",
+          originalTitle,
+        ];
+
+        let currentIndex = 0;
+        setInterval(() => {
+          document.title = titles[currentIndex];
+          currentIndex = (currentIndex + 1) % titles.length;
+        }, 2000);
+      });
+
+      // Fake "subscription" modal
+      function showSubscribeModal() {
+        if (
+          confirm(
+            "🚨 PREMIUM FLAN ALERT! 🚨\n\nSubscribe to unlock:\n• 50+ Exclusive Flan Recipes\n• Step-by-Step Video Tutorials\n• Direct Messaging with Top Flan Creators\n• Early Access to New Caramel Techniques\n\nOnly $9.99/month - Cancel anytime!\n\n(Just kidding... this is a demo site! 😉)"
+          )
+        ) {
+          alert(
+            "🍮 Welcome to the Flan Family! 🍮\n\n(Again... this is just for fun. No real payment processed!)"
+          );
+        }
+      }
+
+      // Make subscribe buttons work
+      document.addEventListener("click", function (e) {
+        if (
+          e.target.classList.contains("subscribe-btn") ||
+          e.target.textContent.includes("Subscribe") ||
+          e.target.textContent.includes("Unlock")
+        ) {
+          e.preventDefault();
+          showSubscribeModal();
+        }
+      });
+    </script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,102 @@
+{% extends 'flans/base.html' %} {% block title %}FAQ - OnlyFlans{% endblock %}
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto">
+  <h1
+    style="
+      text-align: center;
+      margin-bottom: 3rem;
+      background: linear-gradient(
+        45deg,
+        var(--onlyfans-pink),
+        var(--onlyfans-blue)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    "
+  >
+    Frequently Asked Questions
+  </h1>
+
+  <div
+    style="
+      background: var(--onlyfans-light-gray);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      ❓ Is this... what I think it is?
+    </h3>
+    <p style="color: #ccc; line-height: 1.6">
+      No, this is a parody website dedicated entirely to flan, the delicious
+      Mexican dessert! You won't find anything inappropriate here, just amazing
+      caramel-covered goodness. 🍮
+    </p>
+  </div>
+
+  <div
+    style="
+      background: var(--onlyfans-light-gray);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      💰 How do I make money with my flans?
+    </h3>
+    <p style="color: #ccc; line-height: 1.6">
+      Share your secret flan recipes! Users can subscribe to access your premium
+      content. The creamier your flan, the higher your earnings! 💸
+    </p>
+  </div>
+
+  <div
+    style="
+      background: var(--onlyfans-light-gray);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      🔞 Is there adult content?
+    </h3>
+    <p style="color: #ccc; line-height: 1.6">
+      Only if you consider perfectly caramelized sugar and silky custard to be
+      "adult content." We take flan very seriously here. 😉
+    </p>
+  </div>
+
+  <div
+    style="
+      background: var(--onlyfans-light-gray);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      🍮 What makes a flan "premium"?
+    </h3>
+    <p style="color: #ccc; line-height: 1.6">
+      Premium flans feature exclusive recipes, step-by-step video tutorials, and
+      secret techniques passed down through generations. Some are so good
+      they're practically NSFW (Not Safe For Waistlines).
+    </p>
+  </div>
+
+  <div style="text-align: center; margin-top: 3rem">
+    <p style="color: #888; font-style: italic">
+      "The only thing risqué here is how much caramel we use"
+    </p>
+    <a
+      href="{% url 'flan-list' %}"
+      class="btn btn-premium"
+      style="margin-top: 1rem"
+      >Start Exploring Flans</a
+    >
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,297 @@
+{% extends 'flans/base.html' %} {% block title %}{{ flan.name }} -
+OnlyFlans{%endblock %} {% block extra_css %}
+<style>
+  .detail-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .back-btn {
+    color: var(--onlyfans-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+  }
+
+  .flan-detail-card {
+    background-color: var(--onlyfans-light-gray);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #333;
+  }
+
+  .detail-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+
+  .detail-content {
+    padding: 2rem;
+  }
+
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-title {
+    font-size: 2rem;
+    font-weight: bold;
+    flex: 1;
+    margin-right: 2rem;
+  }
+
+  .detail-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--onlyfans-pink);
+  }
+
+  .detail-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    background-color: var(--onlyfans-gray);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  .description-section {
+    margin-bottom: 2rem;
+  }
+
+  .description-section h3 {
+    color: var(--onlyfans-blue);
+    margin-bottom: 1rem;
+  }
+
+  .description-text {
+    color: #ccc;
+    line-height: 1.7;
+    font-size: 1.1rem;
+  }
+
+  .premium-unlock {
+    background: linear-gradient(
+      45deg,
+      var(--onlyfans-pink),
+      var(--onlyfans-blue)
+    );
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .premium-unlock h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .creator-info {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+    color: #888;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="detail-container">
+  <!-- Back Button -->
+  <a href="{% url 'flan-list' %}" class="back-btn">← Back to All Flans</a>
+
+  <!-- Flan Detail Card -->
+  <div class="flan-detail-card">
+    <img
+      src="{{ flan.image_url }}"
+      alt="{{ flan.name }}"
+      class="detail-image"
+      onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800'"
+    />
+
+    <div class="detail-content">
+      <div class="detail-header">
+        <h1 class="detail-title">{{ flan.name }}</h1>
+        <div style="text-align: right">
+          {% if flan.is_premium %}
+          <span
+            class="premium-badge"
+            style="font-size: 1rem; margin-bottom: 0.5rem; display: block"
+            >PREMIUM CONTENT</span
+          >
+          {% endif %}
+          <div class="detail-price">{{ display_price }}</div>
+        </div>
+      </div>
+
+      <div class="detail-meta">
+        <span class="meta-tag">{{ display_type }}</span>
+        <span class="meta-tag">By {{ flan.creator.username }}</span>
+        <span class="meta-tag">{{ flan.created_at|date:"M j, Y" }}</span>
+      </div>
+
+      <div class="description-section">
+        <h3>About This Flan</h3>
+        <p class="description-text">{{ flan.description }}</p>
+      </div>
+
+      {% if flan.is_premium %}
+      <div class="premium-unlock">
+        <h3>🔒 Premium Flan Recipe Locked</h3>
+        <p style="margin-bottom: 1.5rem">
+          Subscribe to unlock this exclusive flan recipe and step-by-step
+          tutorial!
+        </p>
+        <button
+          class="btn"
+          style="
+            background: var(--onlyfans-black);
+            color: white;
+            border: 2px solid white;
+          "
+        >
+          Unlock Recipe - {{ display_price }}
+        </button>
+      </div>
+      {% else %}
+      <div
+        style="
+          text-align: center;
+          padding: 2rem;
+          background-color: var(--onlyfans-gray);
+          border-radius: 10px;
+        "
+      >
+        <h3 style="margin-bottom: 1rem; color: var(--onlyfans-blue)">
+          🎉 Free Flan Recipe!
+        </h3>
+        <p style="color: #ccc; margin-bottom: 1.5rem">
+          This delicious flan recipe is available for everyone to enjoy!
+        </p>
+        <button class="btn btn-premium">View Full Recipe</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- Fake Creator Stats - OnlyFlans Style -->
+  <div
+    style="
+      background: var(--onlyfans-gray);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin: 2rem 0;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      🍮 Creator Stats
+    </h3>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        text-align: center;
+      "
+    >
+      <div>
+        <div
+          style="
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--onlyfans-pink);
+          "
+        >
+          $247
+        </div>
+        <div style="font-size: 0.8rem; color: #888">Monthly Flan Earnings</div>
+      </div>
+      <div>
+        <div
+          style="
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--onlyfans-pink);
+          "
+        >
+          1.2K
+        </div>
+        <div style="font-size: 0.8rem; color: #888">Flan Followers</div>
+      </div>
+      <div>
+        <div
+          style="
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--onlyfans-pink);
+          "
+        >
+          94%
+        </div>
+        <div style="font-size: 0.8rem; color: #888">Satisfaction Rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fake "Recent Activity" -->
+  <div
+    style="
+      background: var(--onlyfans-gray);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    "
+  >
+    <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+      📈 Recent Flan Activity
+    </h3>
+    <div style="color: #ccc; font-size: 0.9rem">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid #333;
+        "
+      >
+        <span>🔥 "Juan" tipped $5 for your Classic Vanilla recipe</span>
+        <span style="color: var(--onlyfans-pink)">2 hours ago</span>
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid #333;
+        "
+      >
+        <span>⭐ "FlanLover42" rated your Chocolate Dream 5 stars</span>
+        <span style="color: var(--onlyfans-pink)">5 hours ago</span>
+      </div>
+      <div
+        style="display: flex; justify-content: space-between; padding: 0.5rem 0"
+      >
+        <span>👑 You unlocked "Top Flan Creator" badge</span>
+        <span style="color: var(--onlyfans-pink)">1 day ago</span>
+      </div>
+    </div>
+  </div>
+  <!-- Creator Info -->
+  <div class="creator-info">
+    <p>
+      Created by {{ flan.creator.username }} • Posted on {{
+      flan.created_at|date:"F j, Y" }}
+    </p>
+  </div>
+</div>
+{% endblock %}

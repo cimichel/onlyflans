@@ -17,8 +17,7 @@ OnlyFlans is a fully-functional Django website that looks exactly like OnlyFans 
 
 ## 🚀 Live Demo
 
-[Add your live deployment link here]
-<!-- Example: https://onlyflans.herokuapp.com/ -->
+Coming soon
 
 ## 🛠️ Tech Stack
 

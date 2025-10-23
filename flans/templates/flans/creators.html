@@ -1,0 +1,328 @@
+{% extends 'flans/base.html' %} {% block title %}Meet Our Flan Creators -
+OnlyFlans{% endblock %} {% block extra_css %}
+<style>
+  .hero-stats {
+    background: linear-gradient(
+      45deg,
+      var(--onlyfans-pink),
+      var(--onlyfans-blue)
+    );
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .creators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .creator-card {
+    background: var(--onlyfans-light-gray);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+  }
+
+  .creator-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--onlyfans-blue);
+    box-shadow: 0 10px 25px rgba(0, 175, 240, 0.2);
+  }
+
+  .creator-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #333;
+  }
+
+  .creator-info {
+    padding: 1.5rem;
+  }
+
+  .creator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+  }
+
+  .creator-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: white;
+    flex: 1;
+    margin-right: 0.5rem;
+  }
+
+  .creator-type {
+    background: var(--onlyfans-blue);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .creator-bio {
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .creator-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+
+  .featured-badge {
+    background: gold;
+    color: black;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+
+  .category-section {
+    margin: 3rem 0;
+  }
+
+  .category-title {
+    color: var(--onlyfans-blue);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--onlyfans-blue);
+    padding-bottom: 0.5rem;
+  }
+
+  .popular-badge {
+    background: var(--onlyfans-pink);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Hero Stats -->
+<div class="hero-stats">
+  <h1>👑 Meet Our Flan Creators</h1>
+  <p>
+    The talented (and hilarious) people behind the world's most exclusive flan
+    recipes
+  </p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">{{ total_creators }}+</div>
+      <div class="stat-label">Creators</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">${{ total_earnings|floatformat:0 }}</div>
+      <div class="stat-label">Total Earnings</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ avg_satisfaction }}%</div>
+      <div class="stat-label">Avg Satisfaction</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Flan Making</div>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Creators -->
+<div class="category-section">
+  <h2 class="category-title">🌟 Featured Creators</h2>
+  <p style="color: #ccc; margin-bottom: 1.5rem">
+    Our top-performing flan artists with legendary recipes
+  </p>
+
+  <div class="creators-grid">
+    {% for creator in featured_creators %}
+    <div class="creator-card">
+      <a
+        href="{% url 'creator-detail' creator.id %}"
+        style="text-decoration: none; color: inherit"
+      >
+        <img
+          src="{{ creator.profile_image }}"
+          alt="{{ creator.name }}"
+          class="creator-image"
+          onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400'"
+        />
+        <div class="creator-info">
+          <div class="creator-header">
+            <span class="creator-name">{{ creator.name }}</span>
+            <div>
+              <span class="creator-type"
+                >{{ creator.get_creator_type_display }}</span
+              >
+              <span class="featured-badge">FEATURED</span>
+            </div>
+          </div>
+          <p class="creator-bio">{{ creator.bio }}</p>
+          <div class="creator-stats">
+            <span>🍮 {{ creator.get_flans_count_display }}</span>
+            <span>💰 {{ creator.earnings_display }}</span>
+            <span>⭐ {{ creator.satisfaction_rate }}%</span>
+          </div>
+          <div style="font-size: 0.8rem; color: #666">
+            📸 {{ creator.instagram_followers }} followers
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Grandma Power Section -->
+<div class="category-section">
+  <h2 class="category-title">👵 Grandma Power</h2>
+  <p style="color: #ccc; margin-bottom: 1.5rem">
+    The real flan experts - decades of caramel experience and sass!
+  </p>
+
+  <div class="creators-grid">
+    {% for creator in grandma_creators %}
+    <div class="creator-card">
+      <a
+        href="{% url 'creator-detail' creator.id %}"
+        style="text-decoration: none; color: inherit"
+      >
+        <img
+          src="{{ creator.profile_image }}"
+          alt="{{ creator.name }}"
+          class="creator-image"
+          onerror="this.src='https://images.unsplash.com/photo-1584302179602-e4819bb92daa?w=400'"
+        />
+        <div class="creator-info">
+          <div class="creator-header">
+            <span class="creator-name">{{ creator.name }}</span>
+            <span class="creator-type"
+              >{{ creator.get_creator_type_display }}</span
+            >
+          </div>
+          <p class="creator-bio">{{ creator.bio }}</p>
+          <div class="creator-stats">
+            <span>📸 {{ creator.instagram_followers }} followers</span>
+            <span>💰 {{ creator.earnings_display }}</span>
+          </div>
+          {% if creator.is_popular %}
+          <div style="margin-top: 0.5rem">
+            <span class="popular-badge">🔥 POPULAR</span>
+          </div>
+          {% endif %}
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Professional Chefs -->
+<div class="category-section">
+  <h2 class="category-title">👨‍🍳 Professional Chefs</h2>
+  <p style="color: #ccc; margin-bottom: 1.5rem">
+    Culinary experts bringing flan to the next level (with drama!)
+  </p>
+
+  <div class="creators-grid">
+    {% for creator in chef_creators %}
+    <div class="creator-card">
+      <a
+        href="{% url 'creator-detail' creator.id %}"
+        style="text-decoration: none; color: inherit"
+      >
+        <img
+          src="{{ creator.profile_image }}"
+          alt="{{ creator.name }}"
+          class="creator-image"
+          onerror="this.src='https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400'"
+        />
+        <div class="creator-info">
+          <div class="creator-header">
+            <span class="creator-name">{{ creator.name }}</span>
+            <span class="creator-type"
+              >{{ creator.get_creator_type_display }}</span
+            >
+          </div>
+          <p class="creator-bio">{{ creator.bio }}</p>
+          <div class="creator-stats">
+            <span>🍮 {{ creator.get_flans_count_display }}</span>
+            <span>⭐ {{ creator.satisfaction_rate }}%</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Call to Action -->
+<div
+  style="
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--onlyfans-gray);
+    border-radius: 15px;
+  "
+>
+  <h3 style="color: var(--onlyfans-blue); margin-bottom: 1rem">
+    Ready to Explore Their Flans?
+  </h3>
+  <p style="color: #ccc; margin-bottom: 1.5rem">
+    Each creator has unique recipes that will change your flan life forever!
+  </p>
+  <a href="{% url 'flan-list' %}" class="btn btn-premium"
+    >Explore All Flans 🍮</a
+  >
+</div>
+{% endblock %}

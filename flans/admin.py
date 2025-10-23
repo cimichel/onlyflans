@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Flan, Subscriber, EmailLog
+from .models import Flan, Subscriber, EmailLog, FlanCreator
 
 # Register your models here.
 from .models import Flan
@@ -49,3 +49,26 @@ class EmailLogAdmin(admin.ModelAdmin):
     list_display = ['subscriber', 'subject', 'sent_at', 'was_successful']
     list_filter = ['was_successful', 'sent_at']
     readonly_fields = ['sent_at']
+    
+@admin.register(FlanCreator)
+class FlanCreatorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'creator_type', 'is_featured', 'total_flans', 'total_earnings', 'satisfaction_rate']
+    list_filter = ['creator_type', 'is_featured', 'join_date']
+    search_fields = ['name', 'bio']
+    readonly_fields = ['join_date']
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'creator_type', 'bio', 'profile_image')
+        }),
+        ('Status & Stats', {
+            'fields': ('is_featured', 'total_flans', 'total_earnings', 'satisfaction_rate')
+        }),
+        ('Social Media', {
+            'fields': ('instagram_followers',)
+        }),
+        ('Metadata', {
+            'fields': ('join_date',)
+        }),
+    )
+    

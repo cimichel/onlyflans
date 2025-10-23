@@ -60,6 +60,14 @@ class Flan(models.Model):
         help_text="User who created this flan"
     )
 
+    featured_creator = models.ForeignKey(
+        'FlanCreator',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="Featured creator for this flan (optional)"
+    )
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -189,3 +197,63 @@ class EmailLog(models.Model):
     def __str__(self) -> str:
         status = "✅" if self.was_successful else "❌"
         return f"{status} Email to {self.subscriber.email} at {self.sent_at.strftime('%Y-%m-%d %H:%M')}"
+
+
+class FlanCreator(models.Model):
+    """
+    Hilarious fake creator profiles for OnlyFlans.
+    Includes Gordon Hamsey, sassy grandmas, and more!
+    """
+    class CreatorType(models.TextChoices):
+        GRANDMA = 'grandma', 'Sweet Grandma'
+        CHEF = 'chef', 'Professional Chef'
+        INFLUENCER = 'influencer', 'Flan Influencer'
+        AMATEUR = 'amateur', 'Home Baker'
+
+    name = models.CharField(max_length=100, help_text="Creator's display name")
+    creator_type = models.CharField(
+        max_length=20, choices=CreatorType.choices, default=CreatorType.AMATEUR)
+    bio = models.TextField(help_text="Hilarious creator biography")
+    profile_image = models.URLField(
+        max_length=500, blank=True, help_text="Creator profile image URL")
+    join_date = models.DateField(auto_now_add=True)
+    is_featured = models.BooleanField(default=False)
+
+    # Fake stats for comedy
+    total_flans = models.IntegerField(
+        default=0, help_text="Total flans created (fake stat)")
+    total_earnings = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, help_text="Total earnings (fake stat)")
+    satisfaction_rate = models.IntegerField(default=95, validators=[MinValueValidator(
+        0), MaxValueValidator(100)], help_text="Satisfaction percentage")
+
+    # Social stats (fake of course)
+    instagram_followers = models.CharField(
+        max_length=50, default="10K", help_text="Fake follower count")
+
+    class Meta:
+        ordering = ['-is_featured', '-total_earnings']
+        verbose_name = 'Flan Creator'
+        verbose_name_plural = 'Flan Creators'
+
+    def __str__(self) -> str:
+        return f"{self.name} ({self.get_creator_type_display()})"
+
+    @property
+    def earnings_display(self) -> str:
+        """Formatted earnings for display"""
+        return f"${self.total_earnings:,.2f}"
+
+    @property
+    def is_popular(self) -> bool:
+        """Check if creator is popular based on fake metrics"""
+        return self.total_earnings > 1000 or self.satisfaction_rate >= 95
+
+    def get_flans_count_display(self) -> str:
+        """Get display text for flans count"""
+        if self.total_flans == 0:
+            return "Just starting out"
+        elif self.total_flans == 1:
+            return "1 amazing flan"
+        else:
+            return f"{self.total_flans} incredible flans"

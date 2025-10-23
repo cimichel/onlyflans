@@ -6,7 +6,7 @@ from django.contrib import messages
 from .models import Subscriber
 from django.contrib.auth.decorators import login_required
 
-from .models import Flan
+from .models import Flan, FlanCreator
 from .services import FlanService, SubscriberService, AnalyticsService
 from .datatypes import FlanCreateData
 from .exceptions import FlanNotFoundError, DuplicateSubscriberError
@@ -141,3 +141,58 @@ def create_flan(request: HttpRequest) -> HttpResponse:
     return render(request, 'flans/create_flan.html', {
         'flan_types': Flan.FLAN_TYPES
     })
+
+def creators_list(request: HttpRequest) -> HttpResponse:
+    """Display all flan creators with hilarious profiles"""
+    try:
+        creators = FlanCreator.objects.all()
+        
+        # Group by type for fun display
+        featured_creators = creators.filter(is_featured=True)
+        grandma_creators = creators.filter(creator_type='grandma')
+        chef_creators = creators.filter(creator_type='chef')
+        influencer_creators = creators.filter(creator_type='influencer')
+        
+        # Calculate some fun stats
+        total_earnings = sum(creator.total_earnings for creator in creators)
+        avg_satisfaction = sum(creator.satisfaction_rate for creator in creators) / len(creators) if creators else 0
+        
+        context = {
+            'creators': creators,
+            'featured_creators': featured_creators,
+            'grandma_creators': grandma_creators,
+            'chef_creators': chef_creators,
+            'influencer_creators': influencer_creators,
+            'total_creators': creators.count(),
+            'total_earnings': total_earnings,
+            'avg_satisfaction': round(avg_satisfaction, 1)
+        }
+        
+        return render(request, 'flans/creators.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in creators_list view: {e}")
+        messages.error(request, "An error occurred while loading creators.")
+        return render(request, 'flans/creators.html', {'creators': []})
+
+def creator_detail(request: HttpRequest, creator_id: int) -> HttpResponse:
+    """Display detailed view of a creator"""
+    try:
+        creator = get_object_or_404(FlanCreator, id=creator_id)
+        
+        # Get flans by this creator (fake association for now)
+        # In a real app, you'd do: creator_flans = Flan.objects.filter(creator_name=creator.name)
+        creator_flans = Flan.objects.all()[:3]  # Mock data
+        
+        context = {
+            'creator': creator,
+            'creator_flans': creator_flans,
+            'is_popular': creator.is_popular
+        }
+        
+        return render(request, 'flans/creator_detail.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in creator_detail view for creator {creator_id}: {e}")
+        messages.error(request, "Creator not found.")
+        return redirect('creators-list')
